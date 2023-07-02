@@ -1,73 +1,71 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+## typeorm 中的属性含义
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ pnpm install
+```js
+TypeOrmModule.forRootAsync({
+  inject: [ConfigService],
+  useFactory: (configService: ConfigService) => ({
+    type: 'mysql',
+    host: configService.get('db.host'),
+    port: configService.get('db.port'),
+    username: configService.get('db.username'),
+    password: configService.get('db.password'),
+    database: configService.get('db.database'),
+    synchronize: configService.get('typeOrm.synchronize'),
+    autoLoadEntities: configService.get('typeOrm.autoLoadEntities'),
+  }),
+}),
 ```
 
-## Running the app
+### `synchronize`
 
-```bash
-# development
-$ pnpm run start
+`synchronize` 属性是 TypeORM 中的一个配置选项，用于指定在应用程序启动时是否自动同步数据库结构。该属性用于配置数据库模式自动更新的行为。
 
-# watch mode
-$ pnpm run start:dev
+当 `synchronize` 设置为 `true` 时，TypeORM 会在应用程序启动时自动检查实体（Entities）的定义与数据库表的结构是否一致。如果存在差异，TypeORM 将尝试更新数据库表以与实体定义保持一致。
 
-# production mode
-$ pnpm run start:prod
+这种自动同步的机制适用于开发和测试环境，可以简化开发人员的工作流程。每当你更改实体的定义时，TypeORM 将自动更新数据库表的结构，无需手动执行数据库迁移或手动更新表结构。
+
+但需要注意的是，在生产环境中，将 `synchronize` 设置为 `true` 是不推荐的。在生产环境中，建议使用数据库迁移工具（如 TypeORM 的迁移功能）来管理数据库结构的变更，以确保数据的完整性和一致性。
+
+默认情况下，`synchronize` 属性为 `false`，即禁用自动同步功能。要启用自动同步，你可以在 TypeORM 的配置文件中将 `synchronize` 设置为 `true`，或者在 `TypeOrmModule.forRoot()` 方法中将其配置为 `synchronize: true`。
+
+示例配置：
+
+```typescript
+TypeOrmModule.forRoot({
+  // 其他配置项...
+  synchronize: true,
+}),
 ```
 
-## Test
+需要注意的是，自动同步功能可能会导致数据丢失或不可逆的表结构更改，因此在生产环境中使用时要非常谨慎，并在必要时备份数据。
 
-```bash
-# unit tests
-$ pnpm run test
 
-# e2e tests
-$ pnpm run test:e2e
+### `autoLoadEntities`
 
-# test coverage
-$ pnpm run test:cov
+`autoLoadEntities` 是 TypeORM 中的一个配置选项，用于指定是否自动加载实体（Entities）。
+
+当 `autoLoadEntities` 设置为 `true` 时，TypeORM 会自动加载应用程序中定义的所有实体。这意味着你不需要手动在 TypeORM 配置中指定每个实体的路径，TypeORM 将会自动扫描并加载你的实体。
+
+使用 `autoLoadEntities` 的好处是，它使实体的管理更加方便。你只需要在你的项目中创建实体类，并确保这些类被正确导入。TypeORM 将根据这些导入的实体类自动加载和管理数据库表结构。
+
+默认情况下，`autoLoadEntities` 的值为 `false`，即禁用自动加载实体功能。要启用自动加载实体，你可以在 TypeORM 的配置文件中将 `autoLoadEntities` 设置为 `true`，或者在 `TypeOrmModule.forRoot()` 方法中将其配置为 `autoLoadEntities: true`。
+
+示例配置：
+
+```typescript
+TypeOrmModule.forRoot({
+  // 其他配置项...
+  autoLoadEntities: true,
+}),
 ```
 
-## Support
+需要注意的是，启用自动加载实体功能时，TypeORM 将会扫描整个项目并加载所有符合要求的实体类。这可能会导致性能上的一些影响，特别是当项目中存在大量实体类时。如果你的项目中只有少量实体类，或者你希望手动控制要加载的实体，可以将 `autoLoadEntities` 设置为 `false`，并手动指定要加载的实体路径。
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```typescript
+TypeOrmModule.forRoot({
+  // 其他配置项...
+  entities: [Entity1, Entity2, ...],
+}),
+```
 
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+通过明确指定要加载的实体路径，你可以更精确地控制哪些实体将被加载和管理。
