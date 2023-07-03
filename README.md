@@ -1,3 +1,30 @@
+## cli 命令
+
+### 新建模块
+
+- `nest generate module user`
+- 会创建 `src/user` 文件夹，同时新建一个 `user.module.ts`
+
+### 新建小模块
+
+- `nest generate module user-create user/create --flat`
+- 会创建 `src/user/create` 文件夹，同时新建一个 `user-create.module.ts`
+
+### 新建 controller
+
+- `nest generate controller user-create user/create/controllers --flat`
+- 会创建 `src/user/create/controllers` 文件夹，同时新建一个 `user-create.controller.ts`
+
+### 新建实体 `entities`
+
+- `pnpm gt user user/entities`
+- 会创建 `src/user/entities` 文件夹，同时新建一个 `user-entity.ts`和`user.entity.subscriber.ts`
+
+### 新建命令 `commands`
+
+- `pnpm gc create-user user/create/commands`
+- 会创建 `src/user/create/commands` 文件夹，同时新建一个 `create-user.command.ts`
+
 ## typeorm 中的属性含义
 
 ```js
@@ -38,7 +65,6 @@ TypeOrmModule.forRoot({
 ```
 
 需要注意的是，自动同步功能可能会导致数据丢失或不可逆的表结构更改，因此在生产环境中使用时要非常谨慎，并在必要时备份数据。
-
 
 ### `autoLoadEntities`
 
