@@ -3,12 +3,12 @@ import { AppController } from './controllers/app.controller';
 import { AppService } from './providers/app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppComonModule } from './common/app-comon.module';
+import { AppComonModule } from './modules/common/app-comon.module';
 
 import appConfig from './configs/app.config';
 import dbConfig from './configs/db.config';
 import { UserModule } from 'src/user/user.module';
-import { AppNotificationModule } from './notification/app-notification.module';
+import { AppNotificationModule } from './modules/notification/app-notification.module';
 
 @Module({
   imports: [
