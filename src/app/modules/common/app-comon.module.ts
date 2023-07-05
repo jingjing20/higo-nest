@@ -1,9 +1,20 @@
-import { Global, Module } from '@nestjs/common';
+import { Global, Module, ValidationPipe } from '@nestjs/common';
+import { APP_PIPE } from '@nestjs/core';
 import { CqrsModule } from '@nestjs/cqrs';
 
 @Global()
 @Module({
   imports: [CqrsModule],
   exports: [CqrsModule],
+  providers: [
+    {
+      provide: APP_PIPE,
+      useFactory: () =>
+        new ValidationPipe({
+          whitelist: true,
+          stopAtFirstError: true,
+        }),
+    },
+  ],
 })
-export class AppComonModule {}
+export class AppCommonModule {}

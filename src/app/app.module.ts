@@ -3,7 +3,7 @@ import { AppController } from './controllers/app.controller';
 import { AppService } from './providers/app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppComonModule } from './modules/common/app-comon.module';
+import { AppCommonModule } from './modules/common/app-comon.module';
 
 import appConfig from './configs/app.config';
 import dbConfig from './configs/db.config';
@@ -31,7 +31,7 @@ import { AppNotificationModule } from './modules/notification/app-notification.m
       }),
     }),
 
-    AppComonModule,
+    AppCommonModule,
     UserModule,
     AppNotificationModule,
   ],
