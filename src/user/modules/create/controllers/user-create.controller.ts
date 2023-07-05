@@ -1,15 +1,14 @@
-import { Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { CreateUserCommand } from '../commands/create-user.command';
+import { CreateUserDto } from '../dtos/create-user-dto';
 
 @Controller('user-create')
 export class UserCreateController {
   constructor(private readonly commandBus: CommandBus) {}
   @Post()
-  createUser() {
+  createUser(@Body() body: CreateUserDto) {
     console.log('Controller createUser');
-    return this.commandBus.execute(
-      new CreateUserCommand({ name: 'jingjing', password: '1818181818' }),
-    );
+    return this.commandBus.execute(new CreateUserCommand(body));
   }
 }
