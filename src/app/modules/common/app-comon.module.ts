@@ -11,8 +11,8 @@ import { CqrsModule } from '@nestjs/cqrs';
       provide: APP_PIPE,
       useFactory: () =>
         new ValidationPipe({
-          whitelist: true,
-          stopAtFirstError: true,
+          whitelist: true, // remove non-whitelisted properties
+          stopAtFirstError: true, // stop at first error
         }),
     },
   ],

@@ -10,7 +10,7 @@ export class UserSaga {
   @Saga()
   sendMessageWhenUserCreated(events$: Observable<any>) {
     return events$.pipe(
-      ofType(UserCreatedEvent),
+      ofType(UserCreatedEvent), // filter events
       map(
         (event) =>
           new SendMessageCommand({ message: `welcome ${event.params.name}` }),
