@@ -9,6 +9,7 @@ import appConfig from './configs/app.config';
 import dbConfig from './configs/db.config';
 import { UserModule } from 'src/user/user.module';
 import { AppNotificationModule } from './modules/notification/app-notification.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { AppNotificationModule } from './modules/notification/app-notification.m
     AppCommonModule,
     UserModule,
     AppNotificationModule,
+    AuthModule,
   ],
 
   controllers: [AppController],
