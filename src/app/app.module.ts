@@ -4,16 +4,19 @@ import { AppService } from './providers/app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppCommonModule } from './modules/common/app-comon.module';
-
-import appConfig from './configs/app.config';
-import dbConfig from './configs/db.config';
 import { UserModule } from 'src/user/user.module';
 import { AppNotificationModule } from './modules/notification/app-notification.module';
 import { AuthModule } from 'src/auth/auth.module';
+import appConfig from './configs/app.config';
+import dbConfig from './configs/db.config';
+import authConfig from 'src/auth/configs/auth.config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true, load: [appConfig, dbConfig] }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [appConfig, dbConfig, authConfig],
+    }),
 
     /**
      * 数据库
