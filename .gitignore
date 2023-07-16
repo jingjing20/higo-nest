@@ -35,4 +35,6 @@ lerna-debug.log*
 !.vscode/extensions.json
 !.vscode/nid-nest.code-snippets
 
+# App
 .env
+uploads

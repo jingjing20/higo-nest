@@ -7,6 +7,7 @@ import { AppCommonModule } from './modules/common/app-comon.module';
 import { UserModule } from 'src/user/user.module';
 import { AppNotificationModule } from './modules/notification/app-notification.module';
 import { AuthModule } from 'src/auth/auth.module';
+import { AppUploadModule } from './modules/upload/app-upload.module';
 import appConfig from './configs/app.config';
 import dbConfig from './configs/db.config';
 import authConfig from 'src/auth/configs/auth.config';
@@ -39,6 +40,7 @@ import authConfig from 'src/auth/configs/auth.config';
     UserModule,
     AppNotificationModule,
     AuthModule,
+    AppUploadModule,
   ],
 
   controllers: [AppController],
