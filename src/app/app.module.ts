@@ -11,6 +11,7 @@ import { AppUploadModule } from './modules/upload/app-upload.module';
 import appConfig from './configs/app.config';
 import dbConfig from './configs/db.config';
 import authConfig from 'src/auth/configs/auth.config';
+import { AvatarModule } from 'src/avatar/avatar.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import authConfig from 'src/auth/configs/auth.config';
     AppNotificationModule,
     AuthModule,
     AppUploadModule,
+    AvatarModule,
   ],
 
   controllers: [AppController],
