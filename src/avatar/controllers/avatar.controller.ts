@@ -1,4 +1,16 @@
-import { Controller } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
+import { AvatarInterceptor } from '../interceptors/avatar.interceptor';
 
-@Controller('avatar')
-export class AvatarController {}
+@Controller()
+export class AvatarController {
+  @Post('avatar')
+  @UseInterceptors(AvatarInterceptor)
+  createAvatar(@UploadedFile() file: Express.Multer.File) {
+    console.log(file, 'file');
+  }
+}
