@@ -13,6 +13,7 @@ import { AvatarCreateModule } from './modules/create/avatar-create.module';
     TypeOrmModule.forFeature([AvatarEntity]),
     AvatarCreateModule,
   ],
+  exports: [TypeOrmModule],
   providers: [AvatarEntitySubscriber],
 })
 export class AvatarModule {}
