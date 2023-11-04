@@ -5,12 +5,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppCommonModule } from './modules/common/app-comon.module';
 import { UserModule } from 'src/user/user.module';
-import { AppNotificationModule } from './modules/notification/app-notification.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { AppUploadModule } from './modules/upload/app-upload.module';
 import appConfig from './configs/app.config';
 import dbConfig from './configs/db.config';
-import authConfig from 'src/auth/configs/auth.config';
+import authConfig from './configs/auth.config';
 import { AvatarModule } from 'src/avatar/avatar.module';
 
 @Module({
@@ -39,7 +38,6 @@ import { AvatarModule } from 'src/avatar/avatar.module';
 
     AppCommonModule,
     UserModule,
-    AppNotificationModule,
     AuthModule,
     AppUploadModule,
     AvatarModule,

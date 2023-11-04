@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { QueryBus } from '@nestjs/cqrs';
 import {
   ValidationArguments,
   ValidatorConstraint,
@@ -7,21 +6,30 @@ import {
   ValidatorOptions,
   registerDecorator,
 } from 'class-validator';
-import { UserExistQuery } from '../queries/user-exist.query';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { UserEntity } from '../entities/user.entity';
 
 @Injectable()
 @ValidatorConstraint({ async: true })
 export class UserNotExistValidator implements ValidatorConstraintInterface {
-  constructor(private readonly queryBus: QueryBus) {}
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
+  ) {}
 
   async validate(value: string, args: ValidationArguments) {
-    const result = await this.queryBus.execute(
-      new UserExistQuery({ name: value }),
-    );
-    return !result;
+    const result = await this.userRepository.find({
+      where: { name: value },
+      select: ['id', 'name'],
+    });
+    console.log(result, 'result');
+    console.log(args, 'ValidationArguments');
+    return !(result.length > 0);
   }
 
   defaultMessage(args: ValidationArguments) {
+    console.log(args, 'ValidationArguments');
     return '用户已存在';
   }
 }

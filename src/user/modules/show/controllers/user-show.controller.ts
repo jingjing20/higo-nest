@@ -1,12 +1,20 @@
 import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
-import { QueryBus } from '@nestjs/cqrs';
-import { GetUserQuery } from '../queries/get-user.query';
-
+import { InjectRepository } from '@nestjs/typeorm';
+import { UserEntity } from 'src/user/entities/user.entity';
+import { Repository } from 'typeorm';
 @Controller('user-show')
 export class UserShowController {
-  constructor(private queryBus: QueryBus) {}
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
+  ) {}
   @Get(':userId')
-  getUser(@Param('userId', ParseIntPipe) userId: number) {
-    return this.queryBus.execute(new GetUserQuery({ id: userId }));
+  async getUser(@Param('userId', ParseIntPipe) userId: number) {
+    const res = await this.userRepository
+      .createQueryBuilder('user')
+      .select(['user.id', 'user.name'])
+      .where('user.id=:userId', { userId })
+      .getOne();
+    return res ? res : 'no info';
   }
 }
