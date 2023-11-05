@@ -7,10 +7,10 @@ import { AppCommonModule } from './modules/common/app-comon.module';
 import { UserModule } from 'src/user/user.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { AppUploadModule } from './modules/upload/app-upload.module';
+import { AvatarModule } from 'src/avatar/avatar.module';
 import appConfig from './configs/app.config';
 import dbConfig from './configs/db.config';
 import authConfig from './configs/auth.config';
-import { AvatarModule } from 'src/avatar/avatar.module';
 
 @Module({
   imports: [
